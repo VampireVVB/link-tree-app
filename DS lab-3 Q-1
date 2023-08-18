@@ -1,68 +1,46 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#define MAX 100
 
-#define MAX_SIZE 100
-
-// Stack structure
-struct Stack {
-    char arr[MAX_SIZE];
-    int top;
-};
-
-// Function to initialize the stack
-void initialize(struct Stack *stack) {
-    stack->top = -1;
+char s[MAX],top=-1;
+void push(char);
+char pop();
+void main()
+{
+    char s[MAX];
+    int i=0,len;
+    printf("Enter the string\n");
+    scanf("%s",s);
+    len=strlen(s);
+    while(i<len)
+    {
+        push(s[i]);
+        i++;
+    }
+    i=0;
+    while(i<len)
+    {
+        if(s[i]!=pop())
+            break;
+        i++;
+    }
+    if(i==len)
+        printf("%s is palindrome",s);
+    else
+        printf("%s is not palindrome",s);
+}
+void push(char data)
+{
+    top=top+1;
+    s[top]=data;
+}
+char pop()
+{
+    char value;
+    value=s[top];
+    top=top-1;
+    return value;
 }
 
-// Function to push an element onto the stack
-void push(struct Stack *stack, char c) {
-    if (stack->top == MAX_SIZE - 1) {
-        printf("Stack is full. Cannot push.\n");
-        return;
-    }
-    stack->arr[++stack->top] = c;
-}
 
-// Function to pop an element from the stack
-char pop(struct Stack *stack) {
-    if (stack->top == -1) {
-        printf("Stack is empty. Cannot pop.\n");
-        return '\0';
-    }
-    return stack->arr[stack->top--];
-}
-
-// Function to check if a given string is a palindrome
-bool isPalindrome(const char *str) {
-    struct Stack stack;
-    initialize(&stack);
-
-    int len = strlen(str);
-    for (int i = 0; i < len; i++) {
-        push(&stack, str[i]);
-    }
-
-    for (int i = 0; i < len; i++) {
-        if (str[i] != pop(&stack)) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-int main() {
-    char input[MAX_SIZE];
-
-    printf("Enter a string: ");
-    scanf("%s", input);
-
-    if (isPalindrome(input)) {
-        printf("The given string is a palindrome.\n");
-    } else {
-        printf("The given string is not a palindrome.\n");
-    }
-
-    return 0;
-}
