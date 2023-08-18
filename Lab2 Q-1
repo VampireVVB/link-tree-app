@@ -1,0 +1,109 @@
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    char s1[100],s2[100];
+    int i,n,a,b,k,l;
+  do{  printf("\n1.String length\n2.String Comparision\n3.String Copy\n4.String Concatination\n5.String insert\n6.String delete\n7.exit\n");
+    printf("Enter your option: ");
+    scanf("%d",&n);
+    switch(n)
+    {
+        case 1: printf("Enter the string: ");
+                scanf("%s",s1);
+                for(i=0;s1[i]!='\0';i++);
+                printf("Length of %s is %d",s1,i);
+                break;
+        case 2: printf("Enter 1st string: ");
+                scanf("%s",s1);
+                printf("Enter 2nd string: ");
+                scanf("%s",s2);
+                if (compare(s1,s2)==1)
+                    printf("Strings are same");
+                else
+                    printf("Strings are not same");
+                break;
+        case 3: printf("Enter 1st string: ");
+                scanf("%s",s1);
+                copy(s1);
+                break;
+        case 4: printf("Enter 1st string: ");
+                scanf("%s",s1);
+                printf("Enter 2nd string: ");
+                scanf("%s",s2);
+                strcatination(s1,s2);
+                break;
+        case 5:printf("Enter the string: ");
+               scanf("%s",s1);
+               printf("Enter the substring: ");
+               scanf("%s",s2);
+               printf("Enter the position where u want to add the sub string:");
+               scanf("%d",&a);
+               insert(s1,s2,a);
+               break;
+
+        case 6:printf("Enter the string: ");
+               scanf("%s",s1);
+               printf("Enter the position you want to delete: ");
+               scanf("%d",&k);
+               printf("Enter the length of the string u want to delete: ");
+               scanf("%d",&l);
+               delete(s1,k,l); break;
+
+        case 7: exit (0);
+    }}while(1);
+
+}
+
+int compare(char s1[],char s2[])
+{
+    int i;
+    while(s1[i]!='\0'||s2[i]!='\0')
+    {if (s1[i]!=s2[i])
+            break;
+            i++;}
+        if (s1[i]==s2[i])
+            return (1);
+        return (0);}
+int copy(char s1[])
+{
+    int i;
+    char s2[100];
+    for(i=0;s1[i]!='\0';i++)
+    s2[i]=s1[i];
+    s2[i]='\0';
+    printf("Value of string 2 is %s",s2);
+}
+int strcatination(char s1[],char s2[])
+{
+    int i,j;
+    for(i=0;s1[i]!='\0';i++);
+    for(j=0;s2[j]!='\0';j++,i++)
+        s1[i]=s2[j];
+    s1[i]='\0';
+    printf("Catenated string is %s",s1);
+    return 0;
+
+}
+int insert(char s1[],char s2[],int a)
+{int i,j,p,q,k;
+
+for(i=0;s1[i]!='\0';i++);
+for(j=0;s2[j]!='\0';j++);
+p=i;
+q=j;
+i=i-1;
+for(a;i>=a;i--)
+    s1[i+j]=s1[i];
+for(k=0;s2[k]!='\0';k++,a++)
+    s1[a]=s2[k];
+    s1[p+q]='\0';
+printf("New String is %s",s1);}
+int delete(char s1[],int k,int l)
+{
+    int i;
+    for(i=k;s1[i+l]!='\0';i++)
+        s1[i]=s1[i+l];
+    s1[i]='\0';
+    printf("The string after deletion is %s",s1);
+}
