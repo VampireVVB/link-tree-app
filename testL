@@ -1,0 +1,41 @@
+#include<stdio.h>
+#define max 5
+int a[max],front=-1,rear=-1;
+void insert(int ele){
+    if (rear=max-1){
+        printf("Q is full");
+    }
+    else {
+        rear++;
+        a[rear]=ele;
+    }
+}
+int delet()
+{
+    if(front==rear)
+    {
+        printf("Q is empty");
+        return(-99);
+    }
+    else{
+        front++;
+        return(a[front]);
+    }
+}
+void display(){
+    int i;
+    if(front==rear){
+        printf("Q is empty");}
+    for(i=front+1;i<=rear;i++)
+        printf("%d",a[i]);
+}
+int main(){
+insert(1);
+insert(4);
+insert(3);
+insert(2);
+insert(5);
+delet();
+delet();
+display();
+}
