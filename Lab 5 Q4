@@ -1,0 +1,53 @@
+class Complex {
+    private double real;
+    private double imaginary;
+
+    public Complex(double real, double imaginary) {
+        this.real = real;
+        this.imaginary = imaginary;
+    }
+
+    public double getReal() {
+        return real;
+    }
+
+    public double getImaginary() {
+        return imaginary;
+    }
+
+    // Method to add an integer to a complex number
+    public Complex add(int num) {
+        double newReal = this.real + num;
+        return new Complex(newReal, this.imaginary);
+    }
+
+    // Method to add two complex numbers
+    public Complex add(Complex otherComplex) {
+        double newReal = this.real + otherComplex.real;
+        double newImaginary = this.imaginary + otherComplex.imaginary;
+        return new Complex(newReal, newImaginary);
+    }
+
+    public String toString() {
+        if (imaginary < 0) {
+            return real + " - " + Math.abs(imaginary) + "i";
+        } else {
+            return real + " + " + imaginary + "i";
+        }
+    }
+
+    public static void main(String[] args) {
+        Complex complex1 = new Complex(3.0, 4.0);
+        Complex complex2 = new Complex(1.0, -2.0);
+        int integer = 5;
+
+        Complex result1 = complex1.add(integer);
+        Complex result2 = complex1.add(complex2);
+
+        System.out.println("Complex 1: " + complex1);
+        System.out.println("Complex 2: " + complex2);
+        System.out.println("Integer: " + integer);
+        System.out.println("Sum of Integer and Complex 1: " + result1);
+        System.out.println("Sum of Complex 1 and Complex 2: " + result2);
+    }
+}
