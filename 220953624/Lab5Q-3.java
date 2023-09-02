@@ -1,0 +1,50 @@
+import java.util.Scanner;
+class Time {
+    int h, m, s, hT, mT , sT;
+    Time(int h, int m, int s)
+    {
+        h = m = s = 0;
+    }
+    Time()
+    {
+        h = m = s = 12;
+    }
+    void addTime(int h1, int h2, int m1, int m2, int s1, int s2)
+    {
+        hT = h1+h2;
+        if(hT > 23)
+            hT = hT - 24;
+        mT = m1+m2;
+        if(mT > 59)
+            mT = mT - 60;
+        sT = s1 + s2;
+        if(sT > 59)
+            sT = sT - 60;
+    }
+    void display()
+    {
+        System.out.println("The time is "+hT+":"+mT+":"+sT+":");
+    }
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        Time obj = new Time();
+        
+        int h1, h2, m1, m2, s1, s2;
+        System.out.println("Enter h1: ");
+        h1 = sc.nextInt();
+        System.out.println("Enter m1: ");
+        m1 = sc.nextInt();
+        System.out.println("Enter s1: ");
+        s1 = sc.nextInt();
+        System.out.println("Enter h2: ");
+        h2 = sc.nextInt();
+        System.out.println("Enter m2: ");
+        m2 = sc.nextInt();
+        System.out.println("Enter s2: ");
+        s2 = sc.nextInt();
+        
+        obj.addTime(h1, h2, m1, m2, s1, s2);
+        obj.display();
+    }
+}
