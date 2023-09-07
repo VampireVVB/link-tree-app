@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_SIZE 100
+
+// Define a stack structure
+struct Stack {
+    char items[MAX_SIZE];
+    int top;
+};
+
+// Function to initialize an empty stack
+void initialize(struct Stack *s) {
+    s->top = -1;
+}
+
+// Function to check if the stack is empty
+int isEmpty(struct Stack *s) {
+    return (s->top == -1);
+}
+
+// Function to push an element onto the stack
+void push(struct Stack *s, char c) {
+    if (s->top == MAX_SIZE - 1) {
+        printf("Stack Overflow\n");
+        exit(1);
+    }
+    s->items[++(s->top)] = c;
+}
+
+// Function to pop an element from the stack
+char pop(struct Stack *s) {
+    if (isEmpty(s)) {
+        printf("Stack Underflow\n");
+        exit(1);
+    }
+    return s->items[(s->top)--];
+}
+
+// Function to convert prefix to fully parenthesized infix
+void prefixToInfix(char *prefix, char *infix) {
+    struct Stack operandStack;
+    initialize(&operandStack);
+    int length = strlen(prefix);
+    int i;
+
+    for (i = length - 1; i >= 0; i--) {
+        char c = prefix[i];
+
+        if (isdigit(c)) {
+            push(&operandStack, c);
+        } else if (c == '+' || c == '-' || c == '*' || c == '/') {
+            char operand1 = pop(&operandStack);
+            char operand2 = pop(&operandStack);
+            infix[strlen(infix) + 1] = '\0';
+            infix[strlen(infix)] = ')';
+            infix[strlen(infix) + 1] = '\0';
+            infix[strlen(infix)] = c;
+            infix[strlen(infix) + 1] = '\0';
+            infix[strlen(infix)] = '(';
+            infix[strlen(infix) + 1] = '\0';
+            infix[strlen(infix)] = operand1;
+            infix[strlen(infix) + 1] = '\0';
+            infix[strlen(infix)] = operand2;
+            push(&operandStack, ')');
+        }
+    }
+
+    if (!isEmpty(&operandStack) && operandStack.top == 0) {
+        infix[strlen(infix) + 1] = '\0';
+        infix[strlen(infix)] = operandStack.items[operandStack.top];
+    } else {
+        printf("Invalid prefix expression\n");
+        exit(1);
+    }
+}
+
+int main() {
+    char prefix[MAX_SIZE];
+    char infix[MAX_SIZE];
+
+    printf("Enter a prefix expression: ");
+    fgets(prefix, MAX_SIZE, stdin);
+    prefix[strlen(prefix) - 1] = '\0'; // Remove the newline character
+
+    infix[0] = '\0'; // Initialize the infix expression as an empty string
+    prefixToInfix(prefix, infix);
+
+    printf("Fully parenthesized infix expression: %s\n", infix);
+
+    return 0;
+}
