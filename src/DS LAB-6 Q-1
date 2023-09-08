@@ -1,138 +1,142 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include<stdio.h>
+#define SIZE 100
 
-#define MAX_SIZE 100
+char stack[SIZE];
+char infix[SIZE];
+char revInfix[SIZE];
+char revPrefix[SIZE];
+char prefix[SIZE];
+int top = -1;
 
-// Define a stack structure
-struct Stack {
-    char items[MAX_SIZE];
-    int top;
-};
-
-// Function to initialize an empty stack
-void initialize(struct Stack *s) {
-    s->top = -1;
-}
-
-// Function to check if the stack is empty
-int isEmpty(struct Stack *s) {
-    return (s->top == -1);
-}
-
-// Function to push an element onto the stack
-void push(struct Stack *s, char c) {
-    if (s->top == MAX_SIZE - 1) {
-        printf("Stack Overflow\n");
-        exit(1);
+void push(char c)
+{
+    top++;
+    if(top >= SIZE )
+    {
+        printf("Stack out of bound");
+        return;
     }
-    s->items[++(s->top)] = c;
+
+    stack[top] = c;
 }
 
-// Function to pop an element from the stack
-char pop(struct Stack *s) {
-    if (isEmpty(s)) {
-        printf("Stack Underflow\n");
-        exit(1);
+char pop()
+{
+    if(top < 0)
+    {
+        printf("Stack empty");
+        return '#';
     }
-    return s->items[(s->top)--];
+    return (stack[top--]);
 }
 
-// Function to get the precedence of an operator
-int getPrecedence(char c) {
-    if (c == '^')
-        return 3;
-    else if (c == '*' || c == '/')
-        return 2;
-    else if (c == '+' || c == '-')
-        return 1;
+typedef enum{rpara, lpara, plus, minus, multi, div, mod, eos, operand} precedence;
+
+int isp[10] = { 0, 19, 12, 12, 13, 13, 13, 0}; // in stack
+int icp[10] = {20, 19, 12, 12, 13, 13, 13, 0}; //before stack
+
+precedence get_token(char c)
+{
+    switch(c)
+    {
+        case '#': return eos;
+        case '(': return lpara;
+        case ')': return rpara;
+        case '+': return plus;
+        case '-': return minus;
+        case '*': return multi;
+        case '/': return div;
+        case '%': return mod;
+        default : return operand;
+    }
+}
+
+void reverseFix(int isInfix)
+{
+    if(isInfix==1)
+    {
+        int len=0;
+        for(len=0;infix[len]!='\0';len++);
+        len--;
+        int i=0;
+        while(len>-1)
+        {
+            revInfix[i]=infix[len];
+            len--;
+            i++;
+        }
+        revInfix[i] = '\0';
+    }
     else
-        return 0;
-}
-
-// Function to convert infix to postfix
-void infixToPostfix(char *infix, char *postfix) {
-    struct Stack operatorStack;
-    initialize(&operatorStack);
-    int i, j = 0;
-
-    for (i = 0; infix[i]; i++) {
-        char c = infix[i];
-
-        if (isalnum(c)) {
-            postfix[j++] = c;
-        } else if (c == '(') {
-            push(&operatorStack, c);
-        } else if (c == ')') {
-            while (!isEmpty(&operatorStack) && operatorStack.items[operatorStack.top] != '(') {
-                postfix[j++] = pop(&operatorStack);
-            }
-            pop(&operatorStack); // Pop the '('
-        } else {
-            while (!isEmpty(&operatorStack) && getPrecedence(c) <= getPrecedence(operatorStack.items[operatorStack.top])) {
-                postfix[j++] = pop(&operatorStack);
-            }
-            push(&operatorStack, c);
+    {
+        int len=0;
+        for(len=0;revPrefix[len]!='\0';len++);
+        len--;
+        int i=0;
+        while(len>-1)
+        {
+            prefix[i]=revPrefix[len];
+            len--;
+            i++;
         }
+        prefix[i] = '\0';
     }
 
-    while (!isEmpty(&operatorStack)) {
-        postfix[j++] = pop(&operatorStack);
-    }
-
-    postfix[j] = '\0';
 }
 
-// Function to reverse a string
-void reverseString(char *str) {
-    int len = strlen(str);
-    for (int i = 0, j = len - 1; i < j; i++, j--) {
-        char temp = str[i];
-        str[i] = str[j];
-        str[j] = temp;
-    }
-}
+void infix2Prefix()
+{
+    reverseFix(1);
+    push('#');
 
-// Function to convert postfix to prefix
-void postfixToPrefix(char *postfix, char *prefix) {
-    struct Stack operandStack;
-    initialize(&operandStack);
-    int i, j = 0;
+    int i=0;
+    int j=0;
+    precedence temp;
 
-    reverseString(postfix);
+    while(revInfix[i] != '\0')
+    {
+        temp = get_token(revInfix[i]);
 
-    for (i = 0; postfix[i]; i++) {
-        char c = postfix[i];
+        if(temp == operand)
+        {
+            revPrefix[j++] = revInfix[i];
 
-        if (isalnum(c)) {
-            push(&operandStack, c);
-        } else {
-            char operand1 = pop(&operandStack);
-            char operand2 = pop(&operandStack);
-
-            prefix[j++] = c;
-            prefix[j++] = operand2;
-            prefix[j++] = operand1;
-            push(&operandStack, c);
         }
+        else if(temp == lpara)
+        {
+            while(stack[top] != ')')
+            {
+                revPrefix[j++] = pop();
+            }
+            pop();
+        }
+        else
+        {
+            while(icp[temp] < isp[get_token(stack[top])])
+            {
+                revPrefix[j++] = pop();
+            }
+            push(revInfix[i]);
+        }
+        i++;
     }
 
-    prefix[j] = '\0';
+    while(stack[top]!='#')
+    {
+        revPrefix[j++] = pop(0);
+    }
+
+    reverseFix(0);
 }
 
-int main() {
-    char infix[MAX_SIZE];
-    char postfix[MAX_SIZE];
-    char prefix[MAX_SIZE];
+int main()
+{
+    printf("Enter infix:\n");
+    scanf("%s",infix);
+    infix2Prefix();
+    printf("Pre = %s",prefix);
 
-    printf("Enter an infix expression: ");
-    fgets(infix, MAX_SIZE, stdin);
-    infix[strlen(infix) - 1] = '\0'; // Remove the newline character
-
-    infixToPostfix(infix, postfix);
-    postfixToPrefix(postfix, prefix);
-
-    printf("Prefix expression: %s\n", prefix);
 
     return 0;
 }
+
