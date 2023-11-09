@@ -1,0 +1,215 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node{
+int data;
+struct node* llink;
+struct node* rlink;
+}node;
+ node* first=NULL;
+
+node* create(node* prev,int ele,node* next)
+{
+
+    node* temp=(node*)malloc(sizeof(node));
+    temp->rlink=next;
+    temp->llink=prev;
+    temp->data=ele;
+    return (temp);
+}
+void insert_end()
+{
+   node* curr;
+    printf("enter data :");
+    int key;
+    scanf("%d",&key);
+     if(first==NULL)
+    {
+        curr=first=create(NULL,key,NULL);
+    }
+
+
+    else
+    {
+       for(curr=first;curr->rlink!=NULL;curr=curr->rlink);
+        curr=curr->rlink=create(curr,key,NULL);
+
+    }
+}
+void delete_end()
+{
+    node* curr;
+    for(curr=first;curr->rlink!=NULL;curr=curr->rlink);
+    curr->llink->rlink=NULL;
+    free(curr);
+}
+void insert_pos()
+{
+    int pos,ele,ctr;
+    node *curr;
+    printf("enter data and position:");
+    scanf("%d %d",&ele,&pos);
+    if(pos==1)
+    {
+        first=create(NULL,ele,first);
+    }
+    else
+    {
+        for(curr=first,ctr=1;curr!=NULL&&ctr!=pos;curr=curr->rlink,ctr++);
+         if(ctr==pos)
+        {
+            curr->llink->rlink=create(curr->llink,ele,curr);
+
+        }
+    }
+
+}
+void delete_pos()
+{
+    int pos,ctr;
+    node* curr;
+    printf("enter position:");
+    scanf("%d",&pos);
+      if(pos==1)
+    {
+        curr=first;
+        first=first->rlink;
+        free(curr);
+    }
+    else
+    {
+        for(curr=first,ctr=1;curr!=NULL&&ctr!=pos;curr=curr->rlink,ctr++);
+         if(ctr==pos)
+        {
+            curr->llink->rlink=curr->rlink;
+            curr->rlink->llink=curr->llink;
+            free(curr);
+
+        }
+    }
+
+}
+void insert_aft()
+{
+    int ele,key;
+    printf("enter data:");
+    scanf("%d",&ele);
+    printf("enter element after which data is to be added: ");
+    scanf("%d",&key);
+    node *curr;
+     if(first==NULL)
+    {
+       first=create(NULL,ele,NULL);
+    }
+    else
+    {
+      for(curr=first;curr!=NULL&&curr->data!=key;curr=curr->rlink);
+
+      if(curr==NULL)
+       {
+
+        printf("not valid");
+        return;
+       }
+
+        if(curr->data==key)
+        {
+            curr->rlink->llink=create(curr,ele,curr->rlink);
+            curr->rlink=curr->rlink->llink;
+        }
+}
+}
+void insert_bef()
+{
+     int ele,key;
+    printf("enter data:");
+    scanf("%d",&ele);
+    printf("enter element before which data is to be added: ");
+    scanf("%d",&key);
+    node *curr;
+     if(first==NULL)
+    {
+       first=create(NULL,ele,NULL);
+    }
+    else
+    {
+
+
+    for(curr=first;curr!=NULL&&curr->data!=key;curr=curr->rlink);
+
+
+        if(curr->data==key)
+        {
+           curr->llink= curr->llink->rlink=create(curr->llink,ele,curr);
+        }
+}
+
+}
+
+void display()
+{
+    node* curr;
+    if(first==NULL)
+        printf("list is empty");
+    else
+    {
+      for(curr=first;curr!=NULL;curr=curr->rlink)
+          printf("%d \t",curr->data);
+}
+}
+void reverse()
+{
+    node* temp,*curr=first->rlink;
+    first->rlink=NULL;
+    first->llink=curr;
+    while(curr!=NULL)
+    {
+        temp=curr;
+        curr=curr->rlink;
+        temp->rlink=first;
+        temp->llink=curr;
+        first =temp;
+    }
+
+}
+int main()
+{
+
+    int opt;
+  do
+    {
+     printf("\n Enter 1 for insert at end \n Enter 2 to delete at end \n Enter 3 to insert at given position \n");
+     printf(" Enter 4 to delete at position \n enter 5 to Insert after \n enter 6 to insert before \n enter 7 to display \n enter 8 to reverse \n");
+     scanf("%d",&opt);
+    switch(opt)
+    {
+    case 1:
+        insert_end();
+        break;
+    case 2:
+        delete_end();
+        break;
+    case 3:
+        insert_pos();
+        break;
+    case 4:
+        delete_pos();
+        break;
+    case 5:
+        insert_aft();
+        break;
+    case 6:
+        insert_bef();
+        break;
+    case 7:
+        display();
+        break;
+    case 8:
+        reverse();
+        break;
+    default:
+        exit(0);
+
+    }
+
+   }while(1);
+}
