@@ -1,0 +1,91 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int coe;
+    int exp;
+   struct node* llink;
+   struct node* rlink;
+}node;
+node* create(node* l,int c,int e,node* r)
+{
+    node* temp;
+    temp=(node*)malloc(sizeof(node));
+    temp->coe=c;
+    temp->exp=e;
+    temp->rlink=r;
+    temp->llink=l;
+    return(temp);
+}
+node* create_poly(int n)
+{
+    node* first=NULL;
+    node* curr;
+    int i,c,e;
+    first=create(NULL,0,-1,first);
+    curr=first;
+    for(i=0;i<n;i++)
+    {
+        printf("\n enter term:");
+        scanf("%d %d",&c,&e);
+        curr=curr->rlink=create(curr,c,e,first);
+        first->llink=curr;
+    }
+    return(first);
+}
+node* multiply(node *a,node* b)
+{
+    node* front,*rear;
+    node* curr,*temp,*curr1;
+    rear=front=create(NULL,0,-1,front);
+    curr1=a->rlink;
+    while(curr1->exp!=-1)
+    {
+
+        for(curr=b->rlink;curr->exp!=-1;curr=curr->rlink)
+         rear=rear->rlink=create(rear,((curr1->coe)*(curr->coe)),(curr1->exp+curr->exp),front);
+         curr1=curr1->rlink;
+    }
+      for(curr=front->rlink;curr->exp!=-1;curr=curr->rlink)
+    {
+
+        for(curr1=curr->rlink;curr1->exp!=-1;curr1=curr1->rlink)
+        {
+            if(curr->exp==curr1->exp)
+            {
+                curr->coe=curr->coe+curr1->coe;
+                curr1->llink->rlink=curr1->rlink;
+                free(curr1);
+            }
+
+        }
+    }
+
+    return(front);
+}
+void display(node* temp)
+{
+    node* curr;
+    if(temp==NULL)
+        printf("list is empty");
+    else
+    {
+
+
+        for(curr=temp->rlink;curr->exp!=-1;curr=curr->rlink)
+          printf("%d x^%d + ",curr->coe,curr->exp);
+        printf("\n");
+    }
+}
+int main()
+{   int n1,n2;
+    printf("enter number of terms for the 2 polynomials :");
+    scanf("%d %d",&n1,&n2);
+    node* first=create_poly(n1);
+    display(first);
+    node* second=create_poly(n2);
+    display(second);
+    node *prod=multiply(first,second);
+    printf("the product  is = \n");
+    display(prod);
+}
