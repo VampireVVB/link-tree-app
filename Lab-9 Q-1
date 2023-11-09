@@ -1,0 +1,87 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node{
+int data;
+struct node* llink;
+struct node* rlink;
+}node;
+ node* first=NULL;
+
+node* create(node* prev,int ele,node* next)
+{
+
+    node* temp=(node*)malloc(sizeof(node));
+    temp->rlink=next;
+    temp->llink=prev;
+    temp->data=ele;
+    return (temp);
+}
+void insert_end()
+{
+   node* curr;
+    printf("enter data :");
+    int key;
+    scanf("%d",&key);
+     if(first==NULL)
+    {
+        curr=first=create(NULL,key,NULL);
+        curr=first->rlink=first;
+    }
+
+
+    else
+    {
+       for(curr=first;curr->rlink!=first;curr=curr->rlink);
+        curr=curr->rlink=create(curr,key,first);
+        first->llink=curr;
+    }
+}
+void delete_end()
+{
+    node* curr;
+    for(curr=first;curr->rlink!=first;curr=curr->rlink);
+    curr->llink->rlink=first;
+    first->llink=curr;
+    free(curr);
+}
+void display()
+{
+    node* curr;
+    if(first==NULL)
+        printf("list is empty");
+    else
+    {
+      for(curr=first;curr->rlink!=first;curr=curr->rlink)
+          printf("%d \t",curr->data);
+        printf("%d \t",curr->data);
+}
+}
+int main()
+{
+
+
+    int opt;
+  do
+    {
+     printf("\n Enter 1 for insert at end \n Enter 2 to delete at end \n Enter 3 to display \n");
+
+     scanf("%d",&opt);
+    switch(opt)
+    {
+    case 1:
+        insert_end();
+        break;
+    case 2:
+        delete_end();
+        break;
+    case 3:
+        display();
+        break;
+
+    default:
+        exit(0);
+
+    }
+
+   }while(1);
+}
