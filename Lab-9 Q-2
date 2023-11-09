@@ -1,0 +1,104 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int coe;
+    int exp;
+   struct node* next;
+
+}node;
+
+node* create(int c,int e,node* ptr)
+{
+    node* temp;
+    temp=(node*)malloc(sizeof(node));
+    temp->coe=c;
+    temp->exp=e;
+    temp->next=ptr;
+    return(temp);
+}
+node* create_poly(int n)
+{
+    node* first=NULL;
+    node* rear;
+    int i,c,e;
+    for(i=0;i<n;i++)
+    {
+        printf("\n enter term:");
+        scanf("%d %d",&c,&e);
+        if(first==NULL)
+        {
+            first=create(c,e,NULL);
+            rear=first;
+        }
+        else
+        {
+            rear=rear->next=create(c,e,NULL);
+        }
+
+    }
+    return(first);
+}
+node* add(node *a,node* b)
+{
+    node* rear,*front;
+    rear=front=create(0,0,NULL);//headnode
+    while(a!=NULL&&b!=NULL)
+   { if(a->exp==b->exp)
+    {
+        rear=rear->next=create(a->coe+b->coe,a->exp,NULL);
+         a=a->next;
+         b=b->next;
+    }
+    else if(a->exp>b->exp)
+    {
+        rear=rear->next=create(a->coe,a->exp,NULL);
+        a=a->next;
+    }
+    else
+    {
+         rear=rear->next=create(b->coe,b->exp,NULL);
+        b=b->next;
+
+    }
+}
+while(a!=NULL)
+{
+    rear=rear->next=create(a->coe,a->exp,NULL);
+}
+while(b!=NULL)
+{
+
+    rear=rear->next=create(b->coe,b->exp,NULL);
+}
+node* temp=front;
+front=front->next;
+free(temp);
+return(front);
+}
+void display(node* third)
+{
+    node* curr;
+    if(third==NULL)
+        printf("list is empty");
+    else
+    {
+
+
+        for(curr=third;curr!=NULL;curr=curr->next)
+          printf("%d x^%d + ",curr->coe,curr->exp);
+        printf("\n");
+    }
+}
+int main()
+{   int n1,n2;
+    printf("enter number of terms for the 2 polynomials :");
+    scanf("%d %d",&n1,&n2);
+    node* first=create_poly(n1);
+    display(first);
+    node* second=create_poly(n2);
+    display(second);
+    node *sum=add(first,second);
+    printf("the sum is = \n");
+    display(sum);
+}
