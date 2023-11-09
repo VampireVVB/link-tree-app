@@ -1,0 +1,132 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node{
+int data;
+struct node* llink;
+struct node* rlink;
+}node;
+node* first=NULL;
+    node* second=NULL;
+
+node* create(node* prev,int ele,node* next)
+{
+
+    node* temp=(node*)malloc(sizeof(node));
+    temp->rlink=next;
+    temp->llink=prev;
+    temp->data=ele;
+    return (temp);
+}
+node* create_dll(int n,node* start)
+{
+    int i,ele;
+    node* last;
+    for(i=0;i<n;i++)
+    {
+        printf("enter data: ");
+        scanf("%d",&ele);
+        if(start==NULL)
+            start=last=create(NULL,ele,NULL);
+        else
+            last=last->rlink=create(last,ele,NULL);
+    }
+    return start;
+}
+void display(node *start)
+{
+     node* curr;
+    if(start==NULL)
+        printf("\n list is empty \n");
+    else
+    {
+      for(curr=start;curr!=NULL;curr=curr->rlink)
+          printf("%d \t",curr->data);
+    printf("\n");
+   }
+}
+void display_sum(node *start)
+{
+     node* curr;
+    if(start==NULL)
+        printf("\n list is empty \n");
+    else
+    {
+
+      for(curr=start;curr->rlink!=NULL;curr=curr->rlink);
+        for(;curr!=NULL;curr=curr->llink)
+          printf("%d \t",curr->data);
+    printf("\n");
+   }
+}
+node *add(node *a,node *b)
+{
+    node *sum=NULL;
+    int s,c=0;
+    node *curr1,*curr2,*curr;
+    for(curr1=a;curr1->rlink!=NULL;curr1=curr1->rlink);
+    for(curr2=b;curr2->rlink!=NULL;curr2=curr2->rlink);
+
+    while(curr1!=NULL && curr2!=NULL)
+    {
+        s=curr1->data + curr2->data+c ;
+        c=0;
+        if(s>9)
+        {
+             c=s/10;
+            s=s%10;
+
+        }
+        if(sum==NULL)
+            sum=curr=create(NULL,s,NULL);
+        else
+          curr=curr->rlink=create(curr,s,NULL);
+
+        curr1=curr1->llink;
+        curr2=curr2->llink;
+
+    }
+    while(curr1!=NULL)
+    {
+        s=curr1->data+c;
+        c=0;
+         if(s>9)
+        {
+             c=s/10;
+            s=s%10;
+
+        }
+        curr=curr->rlink=create(curr,s,NULL);
+        curr1=curr1->llink;
+    }
+     while(curr2!=NULL)
+    {
+        s=curr2->data+c;
+        c=0;
+         if(s>9)
+        {
+             c=s/10;
+            s=s%10;
+
+        }
+        curr=curr->rlink=create(curr,s,NULL);
+        curr2=curr2->llink;
+    }
+    return sum;
+}
+int main()
+{
+    int n1,n2;
+    node *x1,*x2;
+
+    printf("enter number of nodes for linked list 1: ");
+    scanf("%d",&n1);
+   x1= create_dll(n1,first);
+    display(x1);
+    printf("enter number of nodes for linked list 2: ");
+    scanf("%d",&n2);
+    x2=create_dll(n2,second);
+    display(x2);
+    node *ad=add(x1,x2);
+    printf("the sum is : \n");
+    display_sum(ad);
+}
