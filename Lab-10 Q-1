@@ -1,0 +1,235 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct tree
+{
+    int data;
+    struct tree* lchild;
+    struct tree* rchild;
+}tree;
+
+tree* create()
+{   
+   tree* root=NULL;
+    int i=0;
+    int n;
+    printf("enter number of nodes:");
+    scanf("%d",&n);
+    while(i<n)
+    {
+        char dir[10];
+        printf("enter dir\n");
+        scanf("%s",dir);
+        int data;
+        printf("enter data \n");
+        scanf("%d",&data);
+
+        tree* cur = root;
+        tree* prev = cur;
+
+        tree* temp = (tree*) malloc(sizeof(tree));
+        temp->data = data;
+        temp->rchild = NULL;
+        temp->lchild = NULL;
+
+        if(root == NULL)
+        {
+            root = temp;
+        }
+        else
+        {
+            int j=0;
+            while(dir[j]!='\0')
+            {
+
+                prev = cur;
+                if(dir[j] == 'l')
+                    cur = cur->lchild;
+                else
+                  cur = cur->rchild;
+                j++;
+            }
+            if(dir[j-1] == 'l')
+                prev->lchild = temp;
+            else
+                prev ->rchild = temp;
+        }
+        i++;
+    }
+ return root;
+}
+
+
+  void inorder(tree* root)
+  {
+      tree* curr=root;
+      tree* stack[20];
+      int top=-1;
+      while(1)
+      {
+          while(curr!=NULL)
+          {
+              stack[++top]=curr;
+              curr=curr->lchild;
+          }
+          if(top>-1)
+            curr=stack[top--];
+          else
+            break;
+          printf("%d \t",curr->data);
+          curr=curr->rchild;
+      }
+  }
+
+  void preorder(tree* root)
+  {
+      tree* curr=root;
+      tree* stack[20];
+      int top=-1;
+      while(1)
+      {
+          while(curr!=NULL)
+          {
+              printf("%d \t",curr->data);
+              stack[++top]=curr;
+              curr=curr->lchild;
+          }
+          if(top>-1)
+            curr=stack[top--];
+          else
+            break;
+
+          curr=curr->rchild;
+      }
+  }
+  void postorder(tree* root)
+  {
+      tree* curr=root;
+      tree* stack[20];
+      int top=-1;
+      int arr[100];
+      int k=0;
+      while(1)
+      {
+          while(curr!=NULL)
+          {
+              arr[k]=curr->data;
+              k++;
+              stack[++top]=curr;
+              curr=curr->rchild;
+          }
+          if(top>-1)
+            curr=stack[top--];
+          else
+            break;
+
+          curr=curr->lchild;
+      }
+     k--;
+      while(k>=0)
+        printf("%d \t",arr[k--]);
+
+  }
+  void parent(int key,tree* curr,tree* par)
+  {
+    if(curr==NULL)
+        return;
+    if(curr->data==key)
+        printf("%d",par->data);
+    else
+    {
+    parent(key,curr->lchild,curr);
+    parent(key,curr->rchild,curr);
+    }
+}
+int depth(tree * ptr)
+{
+    int rdepth = 0, ldepth = 0;
+
+    if(ptr == NULL)
+    {
+        return 0;
+    }
+
+    else
+    {
+        ldepth = depth(ptr -> lchild);
+        rdepth = depth(ptr -> rchild);
+
+        if(ldepth > rdepth)
+        {
+            return(ldepth + 1);
+        }
+
+        else
+        {
+            return(rdepth + 1);
+        }
+    }
+}
+
+int printAncestors(tree *root, int target)
+{
+  if (root == NULL)
+     return 0;
+
+  if (root->data == target)
+     return 1;
+
+  if ( printAncestors(root->lchild, target) || printAncestors(root->rchild, target) )
+  {
+    printf("%d",root->data);
+    return 1;
+  }
+  return 0;
+}
+int leaf(tree * root)
+{
+    tree * curr = root;
+    tree * queue[20];
+    int front = -1, rear = -1, leaf = 0;
+
+    queue[++rear] = curr;
+
+    while(front != rear)
+    {
+        curr = queue[++front];
+        if(curr -> lchild != NULL)
+        {
+            queue[++rear] = curr -> lchild;
+        }
+
+        if(curr -> rchild != NULL)
+        {
+            queue[++rear] = curr -> rchild;
+        }
+
+        if(curr -> lchild == NULL && curr -> rchild == NULL)
+        {
+            leaf++;
+        }
+    }
+    return leaf;
+}
+
+int main()
+{
+    tree* root=create();
+    
+    printf("inorder:");
+    inorder(root);
+    printf("\n postorder ");
+    postorder(root);
+    printf("\n preorder :");
+    preorder(root);
+      printf("\n enter node whose parent is to be found :");
+      int key;
+       scanf("%d",&key);
+       parent(key,root,root);
+       int d=depth(root);
+       printf("\n Depth =%d ",d);
+       printf("\n enter node whose ancestors is to be found :");
+      int ele;
+       scanf("%d",&ele);
+       printAncestors(root,ele);
+       printf("\n the number of leaf nodes = %d",leaf(root));
+    }
