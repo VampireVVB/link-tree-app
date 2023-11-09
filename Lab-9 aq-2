@@ -1,0 +1,99 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int coe;
+    int exp;
+   struct node* llink;
+   struct node* rlink;
+}node;
+node* create(node* l,int c,int e,node* r)
+{
+    node* temp;
+    temp=(node*)malloc(sizeof(node));
+    temp->coe=c;
+    temp->exp=e;
+    temp->rlink=r;
+    temp->llink=l;
+    return(temp);
+}
+node* create_poly(int n)
+{
+    node* first=NULL;
+    node* curr;
+    int i,c,e;
+    first=create(NULL,0,-1,first);
+    curr=first;
+    for(i=0;i<n;i++)
+    {
+        printf("\n enter term:");
+        scanf("%d %d",&c,&e);
+        curr=curr->rlink=create(curr,c,e,first);
+        first->llink=curr;
+    }
+    return(first);
+}
+node* add(node *a,node* b)
+{
+    node* front,*rear;
+    node* curr,*temp,*curr1;
+    rear=front=create(NULL,0,-1,front);
+    a=a->rlink;
+    b=b->rlink;
+   while(a->exp!=-1&&b->exp!=-1)
+   { if(a->exp==b->exp)
+    {
+        rear=rear->rlink=create(rear,a->coe+b->coe,a->exp,front);
+         a=a->rlink;
+         b=b->rlink;
+    }
+    else if(a->exp>b->exp)
+    {
+        rear=rear->rlink=create(rear,a->coe,a->exp,front);
+        a=a->rlink;
+    }
+    else
+    {
+         rear=rear->rlink=create(rear,b->coe,b->exp,front);
+        b=b->rlink;
+
+    }
+}
+while(a->exp!=-1)
+{
+    rear=rear->rlink=create(rear,a->coe,a->exp,front);
+}
+while(b->exp!=-1)
+{
+
+    rear=rear->rlink=create(rear,b->coe,b->exp,front);
+}
+
+    return(front);
+}
+void display(node* temp)
+{
+    node* curr;
+    if(temp==NULL)
+        printf("list is empty");
+    else
+    {
+
+
+        for(curr=temp->rlink;curr->exp!=-1;curr=curr->rlink)
+          printf("%d x^%d + ",curr->coe,curr->exp);
+        printf("\n");
+    }
+}
+int main()
+{   int n1,n2;
+    printf("enter number of terms for the 2 polynomials :");
+    scanf("%d %d",&n1,&n2);
+    node* first=create_poly(n1);
+    display(first);
+    node* second=create_poly(n2);
+    display(second);
+    node *sum=add(first,second);
+    printf("the sum  is = \n");
+    display(sum);
+}
