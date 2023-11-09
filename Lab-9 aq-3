@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int machineNumber;
+    int bookingDuration;
+    struct Node* rlink;
+    struct Node* llink;
+} Node;
+
+Node* createNewNode(int machineNumber, int bookingDuration) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->machineNumber = machineNumber;
+    newNode->bookingDuration = bookingDuration;
+    newNode->rlink = newNode->llink = NULL;
+    return newNode;
+}
+
+void enqueue(Node** head, int machineNumber, int bookingDuration) {
+    Node* newNode = createNewNode(machineNumber, bookingDuration);
+  
+    if ((*head) == NULL) {
+        newNode->rlink = newNode->llink = newNode;
+        (*head) = newNode;
+        return;
+    }
+  
+    Node* last = (*head)->llink;
+
+    newNode->rlink = (*head);
+    newNode->llink = last;
+  
+    last->rlink = (*head)->llink = newNode;
+}
+
+void dequeue(Node** head) {
+    if ((*head) == NULL) {
+        printf("Queue is empty.\n");
+        return;
+    }
+  
+    if ((*head)->rlink == (*head)) {
+        free(*head);
+        (*head) = NULL;
+        return;
+    }
+  
+    Node* temp = (*head);
+    
+    (*head)->llink->rlink = (*head)->rlink;
+    (*head)->rlink->llink = (*head)->llink;
+  
+    (*head) = (*head)->rlink;
+  
+    free(temp);
+}
+
+void printQueue(Node* head) {
+    if (head == NULL) {
+        printf("Queue is empty.\n");
+        return;
+    }
+  
+    Node* temp = head;
+
+    printf("Machine Number\t\tBooking Duration");
+  
+    do {
+        printf("%d\t\t\t%d", temp->machineNumber, temp->bookingDuration);
+        temp = temp->rlink;
+    } while (temp != head);
+}
+
+int main() {
+    Node* head = NULL;
+
+    enqueue(&head, 1, 30);
+    enqueue(&head, 2, 60);
+    enqueue(&head, 3, 45);
+    enqueue(&head, 4, 120);
+  
+    printf("Initial queue:\n");
+    printQueue(head);
+  
+    printf("\nDequeueing the first person in the queue (Washing machine number %d).\n", head->machineNumber);
+    dequeue(&head);
+
+    printf("\nNew queue:\n");
+    printQueue(head);
+  
+    return 0;
+}
