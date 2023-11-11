@@ -1,0 +1,47 @@
+import java.util.*;
+class StudentMarks
+{
+    public static void main(String args[])
+    {
+        
+        
+            Scanner sc=new Scanner(System.in);
+            System.out.println("Enter number of students: ");
+            int n=sc.nextInt();
+            for(int i=0;i<n;i++){
+            try{
+
+            System.out.println("Enter the student name: ");
+            sc.next();
+            String s=sc.nextLine();
+        
+            System.out.println("Enter the student rollNo." );
+            String r=sc.next();
+            int rn=Integer.valueOf(r);
+            System.out.println("Enter the marks of the student in subj1,subj2,subj3:");
+            String m1=sc.next();
+            int n1=Integer.valueOf(m1);
+            String m2=sc.next();
+            int n2=Integer.valueOf(m2);
+            String m3=sc.next();
+            int n3=Integer.valueOf(m3);
+            double p=(n1+n2+n3)*100/300;
+            System.out.println("Percentage: "+p);
+            if(p>=90)
+            System.out.println("Grade A+");
+            else if(p>=75 && p<90)
+            System.out.println("Grade A");
+            else if(p>=60 && p<75)
+              System.out.println("Grade B");
+            else 
+              System.out.println("Low Grade");
+            }
+        catch(NumberFormatException e)
+        {
+            System.out.println("Roll number or marks contained invalid entry");
+            System.out.println("Move to next Entry");
+        }
+    }
+    }
+    }
+    
