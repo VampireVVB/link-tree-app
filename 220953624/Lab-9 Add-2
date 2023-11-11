@@ -1,0 +1,72 @@
+import java.util.Scanner;
+
+class Student {
+    String registrationNumber;
+    String firstName;
+    String lastName;
+    String degree;
+
+    public Student(String registrationNumber, String firstName, String lastName, String degree) {
+        this.registrationNumber = registrationNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.degree = degree;
+    }
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+}
+
+public class aq2 {
+    public static void main(String[] args) {
+        Student[] students = {
+                new Student("001", "John", "Doe", "Computer Science"),
+                new Student("002", "Jane", "Smith", "Mathematics"),
+                new Student("003", "Alice", "Johnson", "Physics"),
+                new Student("004", "Bob", "Brown", "Chemistry"),
+                new Student("005", "David", "Davis", "Biology"),
+                new Student("006", "Emily", "Taylor", "English"),
+                new Student("007", "Michael", "Miller", "History"),
+                new Student("008", "Olivia", "Wilson", "Economics"),
+                new Student("009", "Sophia", "Anderson", "Political Science"),
+                new Student("010", "William", "Thomas", "Sociology")
+        };
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the first name or last name of the student to search: ");
+        String searchQuery = scanner.nextLine();
+
+        boolean found = false;
+        for (Student student : students) {
+            if (student.getFirstName().equalsIgnoreCase(searchQuery)
+                    || student.getLastName().equalsIgnoreCase(searchQuery)) {
+                System.out.println("Student found:");
+                System.out.println("Registration Number: " + student.getRegistrationNumber());
+                System.out.println("First Name: " + student.getFirstName());
+                System.out.println("Last Name: " + student.getLastName());
+                System.out.println("Degree: " + student.getDegree());
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Student not found.");
+        }
+
+        scanner.close();
+    }
+}
