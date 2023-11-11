@@ -1,0 +1,25 @@
+import java.util.*;
+class def extends Exception
+{
+    public String toString()
+    {
+        String s="Somehow error in code";
+        return s;
+    }
+}
+class DispError
+{
+    public static void main(String args[])
+    {
+        try{
+            Scanner sc=new Scanner(System.in);
+            System.out.println("Enter a number: ");
+            int n=sc.nextInt();
+            throw new def();
+        }
+        catch(def e)
+        {
+            System.out.println("Exception is: "+e);
+        }
+    }
+}
