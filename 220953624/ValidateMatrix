@@ -1,0 +1,21 @@
+import java.util.*;
+class Matrix extends Exception{}
+class ValidateMatrix
+{
+    public static void main(String args[])
+    {
+        try{
+            Scanner sc=new Scanner(System.in);
+            System.out.println("Enter the order of a square matrix: ");
+            int m=sc.nextInt();
+            int n=sc.nextInt();
+            if(m!=n)
+            throw new Matrix();
+            System.out.println("The square matrix order is: "+m+" by "+n);
+        }
+        catch(Matrix e)
+        {
+            System.out.println("Invalid entry of square matrix order");
+        }
+    }
+}
