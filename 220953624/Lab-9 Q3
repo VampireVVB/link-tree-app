@@ -1,0 +1,75 @@
+import java.util.*;
+
+public class q3 {
+
+   String str;
+   String rev;
+
+   void palindromecheck() {
+
+      if (str.equalsIgnoreCase(rev))
+         System.out.println("Palindrome string");
+      else
+         System.out.println("Not palindrome");
+   }
+
+   void order() {
+      char temp;
+      char arr[] = str.toCharArray();
+      System.out.println(arr);
+      int size = arr.length;
+      for (int i = 0; i < size - 1; i++) {
+         for (int j = 0; j < size - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+               temp = arr[j];
+               arr[j] = arr[j + 1];
+               arr[j + 1] = temp;
+            }
+         }
+
+      }
+
+      System.out.println("String in alphabetical order is: ");
+      System.out.println(arr);
+   }
+
+   void concat() {
+      String s = str.concat(rev);
+      System.out.println("the conactenated string is: ");
+      System.out.println(s);
+   }
+
+   public static void main(String args[]) {
+      q3 obj = new q3();
+      Scanner sc = new Scanner(System.in);
+      System.out.println("enter string ");
+      obj.str = sc.nextLine();
+      StringBuffer sb = new StringBuffer(obj.str);
+      sb.reverse();
+      obj.rev = sb.toString();
+
+      int choice;
+      do {
+         System.out.println("Enter choice:");
+         choice = sc.nextInt();
+
+         switch (choice) {
+            case 1:
+               obj.palindromecheck();
+               break;
+            case 2:
+               obj.order();
+               break;
+            case 3:
+               System.out.println("The reverse of the string is ");
+               String s = obj.rev;
+               System.out.println(s);
+               break;
+            case 4:
+               obj.concat();
+               break;
+         }
+      } while (choice < 4);
+   }
+
+}
