@@ -1,0 +1,25 @@
+import java.util.*;
+class neg extends Exception{
+
+}
+class NegRoot
+{
+    public static void main(String args[])
+    {
+        try{
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter a negative number to check its square root");
+        int a=sc.nextInt();
+        if(a>0)
+        {
+            throw new neg();
+        }
+        double n=-1*Math.sqrt(-1*a);
+        System.out.println("The square root of the number is: "+n+"i");
+        }
+        catch(neg e)
+        {
+            System.out.println("Non Negative number exception caught");
+        }
+    }
+}
