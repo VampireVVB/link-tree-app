@@ -1,0 +1,19 @@
+import java.util.*;
+class NumberFormatExcp
+{
+    public static void main(String args[])
+    {
+        try{
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter a number into a string:");
+        String s=sc.next();
+        int a=Integer.valueOf(s);
+        System.out.println("The number stored into an int is: "+a);
+        }
+        catch(NumberFormatException e)
+        {
+            System.out.println("Number format exception caught");
+            
+        }
+    }
+}
