@@ -1,0 +1,90 @@
+import java.util.Scanner;
+
+public class q4 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String string1, string2;
+        char choice;
+
+        do {
+            System.out.println("Menu:");
+            System.out.println("a. Compare two strings");
+            System.out.println("b. Convert uppercase character to lower and vice-versa");
+            System.out.println("c. Check if a string is a substring");
+            System.out.println("d. Replace substring with \"Hello\"");
+            System.out.println("e. Exit");
+            System.out.print("Enter your choice (a-e): ");
+            choice = scanner.nextLine().charAt(0);
+
+            switch (choice) {
+                case 'a':
+                    System.out.print("Enter string 1: ");
+                    string1 = scanner.nextLine();
+                    System.out.print("Enter string 2: ");
+                    string2 = scanner.nextLine();
+
+                    if (string1.equals(string2)) {
+                        System.out.println("The two strings are equal.");
+                    } else {
+                        System.out.println("The two strings are not equal.");
+                    }
+                    break;
+
+                case 'b':
+                    System.out.print("Enter a string: ");
+                    string1 = scanner.nextLine();
+
+                    StringBuffer convertedString = new StringBuffer();
+                    for (char c : string1.toCharArray()) {
+                        if (Character.isUpperCase(c)) {
+                            convertedString.append(Character.toLowerCase(c));
+                        } else if (Character.isLowerCase(c)) {
+                            convertedString.append(Character.toUpperCase(c));
+                        } else {
+                            convertedString.append(c);
+                        }
+                    }
+
+                    System.out.println("Converted string: " + convertedString.toString());
+                    break;
+
+                case 'c':
+                    System.out.print("Enter string 1: ");
+                    string1 = scanner.nextLine();
+                    System.out.print("Enter string 2: ");
+                    string2 = scanner.nextLine();
+
+                    if (string1.contains(string2)) {
+                        System.out.println(string2 + " is a substring of " + string1);
+                    } else {
+                        System.out.println(string2 + " is not a substring of " + string1);
+                    }
+                    break;
+
+                case 'd':
+                    System.out.print("Enter string 1: ");
+                    string1 = scanner.nextLine();
+                    System.out.print("Enter string 2: ");
+                    string2 = scanner.nextLine();
+
+                    if (string1.contains(string2)) {
+                        String replacedString = string1.replace(string2, "Hello");
+                        System.out.println("Replaced string: " + replacedString);
+                    } else {
+                        System.out.println(string2 + " is not a substring of " + string1);
+                    }
+                    break;
+
+                case 'e':
+                    System.out.println("Exiting the program...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Please enter a valid option.");
+                    break;
+            }
+
+            System.out.println();
+        } while (choice != 'e');
+    }
+}
