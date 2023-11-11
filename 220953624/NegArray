@@ -1,0 +1,18 @@
+import java.util.*;
+class NegArray
+{
+    public static void main(String args[])
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter the size of the array:");
+        int n=sc.nextInt();
+        try{
+            int a[]=new int[n];
+            System.out.println("Array of size "+n+" has been created");
+        }
+        catch(NegativeArraySizeException e)
+        {
+            System.out.println("Exception caught: "+e);
+        }
+    }
+}
