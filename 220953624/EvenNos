@@ -1,0 +1,23 @@
+import java.util.*;
+class evenno extends Exception{
+    public String toString()
+    {
+        return("Even number exception");
+    }
+}
+class EvenNos
+{
+    public static void main(String args[])
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter an odd number");
+        int n=sc.nextInt();
+       try{ if(n%2==0)
+            throw new evenno();
+        System.out.println("Correct entry");
+    }
+    catch(evenno e){
+    System.out.println("Invalid entry: "+e);
+    }
+}
+}
