@@ -1,0 +1,24 @@
+import java.util.Scanner;
+
+public class aq3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter five strings:");
+        String[] strings = new String[5];
+
+        for (int i = 0; i < 5; i++) {
+            strings[i] = scanner.nextLine();
+        }
+
+        String concatenatedString = "";
+
+        for (int i = 0; i < 5; i++) {
+            concatenatedString += strings[i];
+        }
+
+        System.out.println("Concatenated string: " + concatenatedString);
+
+        scanner.close();
+    }
+}
