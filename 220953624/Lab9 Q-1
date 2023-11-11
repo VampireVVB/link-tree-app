@@ -1,0 +1,36 @@
+import java.util.*;
+
+class q1 {
+    Scanner sc = new Scanner(System.in);
+
+    void countStr() {
+        String s;
+        System.out.println("enter a string");
+        s = sc.nextLine();
+        int nchar, nword = 1, nlines = 0, nvowels = 0;
+        int len = s.length();
+        nchar = len;
+        int i;
+        for (i = 0; i < len; i++) {
+            if (s.charAt(i) == ' ')
+                nword++;
+            if (s.charAt(i) == 'a' || s.charAt(i) == 'e' || s.charAt(i) == 'i' || s.charAt(i) == 'o'
+                    || s.charAt(i) == 'u')
+                nvowels++;
+            if (s.charAt(i) == 'A' || s.charAt(i) == 'E' || s.charAt(i) == 'I' || s.charAt(i) == 'O'
+                    || s.charAt(i) == 'U')
+                nvowels++;
+
+        }
+        nlines = s.split("[\r\n]+").length;
+        System.out.println("Number of chars = " + nchar);
+        System.out.println("Number of words = " + nword);
+        System.out.println("Number of vowels = " + nvowels);
+        System.out.println("Number of lines= " + nlines);
+    }
+
+    public static void main(String args[]) {
+        q1 ob = new q1();
+        ob.countStr();
+    }
+}
