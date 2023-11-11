@@ -1,0 +1,24 @@
+import java.util.Scanner;
+
+public class aq4 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a telephone number in the form (555) 555-5555: ");
+        String phoneNumber = scanner.nextLine();
+
+        // Extracting area code
+        String areaCode = phoneNumber.substring(1, 4);
+
+        // Extracting first three digits of phone number
+        String firstThreeDigits = phoneNumber.substring(6, 9);
+
+        // Extracting last four digits of phone number
+        String lastFourDigits = phoneNumber.substring(10, 14);
+
+        System.out.println("Area code: " + areaCode);
+        System.out.println("Seven-digit phone number: " + firstThreeDigits + "-" + lastFourDigits);
+
+        scanner.close();
+    }
+}
