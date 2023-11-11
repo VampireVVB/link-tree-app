@@ -1,0 +1,22 @@
+import java.util.*;
+
+class MarkOutofBoundsException extends Exception {
+    public String toString() {
+        return ("MarkOutofBoundsException");
+    }
+}
+
+class Student {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter marks:");
+        int n = sc.nextInt();
+        try {
+            if (n > 100)
+                throw new MarkOutofBoundsException();
+            System.out.println("Correct entry");
+        } catch (MarkOutofBoundsException e) {
+            System.out.println("Invalid entry: " + e);
+        }
+    }
+}
