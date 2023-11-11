@@ -1,0 +1,29 @@
+import java.util.*;
+class ArrayOverflow
+{
+    public static void main(String args[])
+    {
+        try{int c=0;
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter elements into an array(size 5) and enter 9999 to terminate:");
+        
+        int a[]=new int[5];
+        int i=0;
+        for(i=0;i<100;i++)
+        {
+            a[i]=sc.nextInt();
+            c++;
+            if(a[i]==9999)
+                break;
+        }
+        System.out.println("The array is:");
+        for(i=0;i<c-1;i++)
+        System.out.print(a[i]+"\t");
+    }
+    catch(ArrayIndexOutOfBoundsException e)
+    {
+        System.out.println("Array overflow exception caught");
+    }
+
+    }
+}
